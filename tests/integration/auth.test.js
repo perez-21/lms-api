@@ -81,6 +81,12 @@ describe('Auth routes', () => {
 
       await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
     });
+
+    test('should return 400 error if role is not valid', async () => {
+      newUser.role = 'invalid';
+
+      await request(app).post('/v1/auth/register').send(newUser).expect(httpStatus.BAD_REQUEST);
+    });
   });
 
   describe('POST /v1/auth/login', () => {

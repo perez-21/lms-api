@@ -128,7 +128,7 @@ describe('User routes', () => {
         .expect(httpStatus.BAD_REQUEST);
     });
 
-    test('should return 400 error if role is not student, facilitator or admin', async () => {
+    test('should return 400 error if role is not valid', async () => {
       await insertUsers([admin]);
       newUser.role = 'invalid';
 
@@ -267,7 +267,7 @@ describe('User routes', () => {
       expect(res.body.results[0].id).toBe(userOne._id.toHexString());
       expect(res.body.results[1].id).toBe(userTwo._id.toHexString());
       expect(res.body.results[2].id).toBe(admin._id.toHexString());
-    }); // TODO: fix test
+    });
 
     test('should correctly sort the returned array if ascending sort param is specified', async () => {
       await insertUsers([userOne, userTwo, admin]);
@@ -288,9 +288,9 @@ describe('User routes', () => {
       });
       expect(res.body.results).toHaveLength(3);
       expect(res.body.results[0].id).toBe(admin._id.toHexString());
-      expect(res.body.results[1].id).toBe(userOne._id.toHexString());
-      expect(res.body.results[2].id).toBe(userTwo._id.toHexString());
-    }); // TODO: fix test
+      expect(res.body.results[1].id).toBe(userTwo._id.toHexString());
+      expect(res.body.results[2].id).toBe(userOne._id.toHexString());
+    });
 
     test('should correctly sort the returned array if multiple sorting criteria are specified', async () => {
       await insertUsers([userOne, userTwo, admin]);
@@ -324,7 +324,7 @@ describe('User routes', () => {
       expectedOrder.forEach((user, index) => {
         expect(res.body.results[index].id).toBe(user._id.toHexString());
       });
-    }); // TODO: fix test
+    });
 
     test('should limit returned array if limit param is specified', async () => {
       await insertUsers([userOne, userTwo, admin]);
@@ -346,7 +346,7 @@ describe('User routes', () => {
       expect(res.body.results).toHaveLength(2);
       expect(res.body.results[0].id).toBe(userOne._id.toHexString());
       expect(res.body.results[1].id).toBe(userTwo._id.toHexString());
-    }); // TODO: fix test
+    });
 
     test('should return the correct page if page and limit params are specified', async () => {
       await insertUsers([userOne, userTwo, admin]);
@@ -368,7 +368,7 @@ describe('User routes', () => {
       expect(res.body.results).toHaveLength(1);
       expect(res.body.results[0].id).toBe(admin._id.toHexString());
     });
-  }); // TODO: fix test
+  });
 
   describe('GET /v1/users/:userId', () => {
     test('should return 200 and the user object if data is ok', async () => {
