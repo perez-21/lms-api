@@ -372,11 +372,11 @@ describe('User routes', () => {
 
   describe('GET /v1/users/:userId', () => {
     test('should return 200 and the user object if data is ok', async () => {
-      await insertUsers([userOne]);
+      await insertUsers([userOne, admin]);
 
       const res = await request(app)
         .get(`/v1/users/${userOne._id}`)
-        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send()
         .expect(httpStatus.OK);
 
@@ -439,11 +439,11 @@ describe('User routes', () => {
 
   describe('DELETE /v1/users/:userId', () => {
     test('should return 204 if data is ok', async () => {
-      await insertUsers([userOne]);
+      await insertUsers([userOne, admin]);
 
       await request(app)
         .delete(`/v1/users/${userOne._id}`)
-        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send()
         .expect(httpStatus.NO_CONTENT);
 
@@ -500,7 +500,7 @@ describe('User routes', () => {
 
   describe('PATCH /v1/users/:userId', () => {
     test('should return 200 and successfully update user if data is ok', async () => {
-      await insertUsers([userOne]);
+      await insertUsers([userOne, admin]);
       const updateBody = {
         name: faker.name.findName(),
         email: faker.internet.email().toLowerCase(),
@@ -509,7 +509,7 @@ describe('User routes', () => {
 
       const res = await request(app)
         .patch(`/v1/users/${userOne._id}`)
-        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.OK);
 
@@ -580,56 +580,56 @@ describe('User routes', () => {
     });
 
     test('should return 400 if email is invalid', async () => {
-      await insertUsers([userOne]);
+      await insertUsers([userOne, admin]);
       const updateBody = { email: 'invalidEmail' };
 
       await request(app)
         .patch(`/v1/users/${userOne._id}`)
-        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
     });
 
     test('should return 400 if email is already taken', async () => {
-      await insertUsers([userOne, userTwo]);
+      await insertUsers([userOne, userTwo, admin]);
       const updateBody = { email: userTwo.email };
 
       await request(app)
         .patch(`/v1/users/${userOne._id}`)
-        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
     });
 
     test('should not return 400 if email is my email', async () => {
-      await insertUsers([userOne]);
+      await insertUsers([userOne, admin]);
       const updateBody = { email: userOne.email };
 
       await request(app)
         .patch(`/v1/users/${userOne._id}`)
-        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.OK);
     });
 
     test('should return 400 if password length is less than 8 characters', async () => {
-      await insertUsers([userOne]);
+      await insertUsers([userOne, admin]);
       const updateBody = { password: 'passwo1' };
 
       await request(app)
         .patch(`/v1/users/${userOne._id}`)
-        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
     });
 
     test('should return 400 if password does not contain both letters and numbers', async () => {
-      await insertUsers([userOne]);
+      await insertUsers([userOne, admin]);
       const updateBody = { password: 'password' };
 
       await request(app)
         .patch(`/v1/users/${userOne._id}`)
-        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
 
@@ -637,7 +637,7 @@ describe('User routes', () => {
 
       await request(app)
         .patch(`/v1/users/${userOne._id}`)
-        .set('Authorization', `Bearer ${userOneAccessToken}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(updateBody)
         .expect(httpStatus.BAD_REQUEST);
     });

@@ -555,7 +555,7 @@ describe('Auth middleware', () => {
     );
   });
 
-  test('should call next with forbidden error if user does not have required rights and userId is not in params', async () => {
+  test('should call next with forbidden error if user does not have required rights', async () => {
     await insertUsers([userOne]);
     const req = httpMocks.createRequest({ headers: { Authorization: `Bearer ${userOneAccessToken}` } });
     const next = jest.fn();
@@ -566,24 +566,10 @@ describe('Auth middleware', () => {
     expect(next).toHaveBeenCalledWith(expect.objectContaining({ statusCode: httpStatus.FORBIDDEN, message: 'Forbidden' }));
   });
 
-  test('should call next with no errors if user does not have required rights but userId is in params', async () => {
-    await insertUsers([userOne]);
-    const req = httpMocks.createRequest({
-      headers: { Authorization: `Bearer ${userOneAccessToken}` },
-      params: { userId: userOne._id.toHexString() },
-    });
-    const next = jest.fn();
-
-    await auth('anyRight')(req, httpMocks.createResponse(), next);
-
-    expect(next).toHaveBeenCalledWith();
-  });
-
   test('should call next with no errors if user has required rights', async () => {
     await insertUsers([admin]);
     const req = httpMocks.createRequest({
       headers: { Authorization: `Bearer ${adminAccessToken}` },
-      params: { userId: userOne._id.toHexString() },
     });
     const next = jest.fn();
 

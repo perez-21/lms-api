@@ -1,7 +1,9 @@
+const Permissions = require('./permissions');
+
 const allRoles = {
   student: [],
   facilitator: [],
-  admin: ['getUsers', 'manageUsers'],
+  admin: [Permissions.USER_READ, Permissions.USER_CREATE, Permissions.USER_UPDATE, Permissions.USER_DELETE],
 };
 
 const roles = Object.keys(allRoles);
