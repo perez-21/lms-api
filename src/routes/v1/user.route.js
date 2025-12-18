@@ -16,7 +16,11 @@ router
   .route('/:userId')
   .get(auth(Permissions.USER_READ), validate(userValidation.getUser), userController.getUser)
   .patch(auth(Permissions.USER_UPDATE), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth(Permissions.USER_DELETE), validate(userValidation.deleteUser), userController.deleteUser);
+  .delete(
+    auth(Permissions.USER_DELETE, Permissions.STUDENT_DELETE),
+    validate(userValidation.deleteUser),
+    userController.deleteUser
+  );
 
 module.exports = router;
 

@@ -1,8 +1,10 @@
+const { Types } = require('mongoose');
+
 const objectId = (value, helpers) => {
-  if (!value.match(/^[0-9a-fA-F]{24}$/)) {
-    return helpers.message('"{{#label}}" must be a valid mongo id');
+  if (!Types.ObjectId.isValid(value)) {
+    return helpers.message('Invalid ID');
   }
-  return value;
+  return new Types.ObjectId(value);
 };
 
 const password = (value, helpers) => {
