@@ -1,0 +1,17 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: '*.{js,ts}' 
+      run: pnpm run lint
+    format:
+      run: pnpm run prettier
+    gitLeaks:
+      run: pnpm run gitleaks
+pre-push:
+  parallel: true
+  commands:
+    packages-audit:
+      run: pnpm audit
+    test:
+      run: pnpm test
