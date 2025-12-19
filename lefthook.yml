@@ -12,6 +12,6 @@ pre-push:
   parallel: true
   commands:
     packages-audit:
-      run: pnpm audit
+      run: pnpm audit -P --audit-level critical
     test:
       run: pnpm test
