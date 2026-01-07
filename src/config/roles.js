@@ -12,6 +12,10 @@ const allRoles = {
     Permissions.STUDENT_READ,
     Permissions.STUDENT_UPDATE,
     Permissions.STUDENT_DELETE,
+    Permissions.COURSE_CREATE,
+    Permissions.COURSE_READ,
+    Permissions.COURSE_DELETE,
+    Permissions.COURSE_UPDATE,
   ],
 };
 
