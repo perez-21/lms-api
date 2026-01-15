@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const isURL = require('validator/lib/isURL');
 const { toJSON, paginate } = require('./plugins');
 
-const quizSchema = mongoose.Schema({
+const questionSchema = mongoose.Schema({
   text: {
     type: String,
     required: true,
@@ -33,6 +33,12 @@ const quizSchema = mongoose.Schema({
   answer: {
     type: String,
     maxLength: 200,
+  },
+});
+
+const quizSchema = mongoose.Schema({
+  questions: {
+    type: [questionSchema],
   },
 });
 
